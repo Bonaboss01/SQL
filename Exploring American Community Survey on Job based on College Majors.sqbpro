@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="C:/Users/MY PC/Desktop/db/jobs.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="3034"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,12:mainrecent_grads"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="recent_grads" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="42"/><column index="2" value="40"/><column index="3" value="84"/><column index="4" value="300"/><column index="5" value="214"/><column index="6" value="49"/><column index="7" value="87"/><column index="8" value="49"/><column index="9" value="56"/><column index="10" value="94"/><column index="11" value="69"/><column index="12" value="64"/><column index="13" value="72"/><column index="14" value="148"/><column index="15" value="86"/><column index="16" value="139"/><column index="17" value="54"/><column index="18" value="46"/><column index="19" value="49"/><column index="20" value="89"/><column index="21" value="120"/><column index="22" value="112"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1">-- In this project, we'll explore data from the American Community Survey on job outcome statistics based on college majors --
+-- We provide a database, jobs.db, loaded with this data into a single table named recent_grads
+select * from recent_grads
+
+-- There are 173 rows from the recent_grads table, we will explore this rwos and look forward to answer the question below
+-- Which engineering majors had the highest full time employment rates?
+
+
+
+</sql><sql name="SQL 27">-- exploring the Major COLUMN
+select Major from recent_grads</sql><sql name="SQL 28">-- exploring multiple columns with the LIMIT clause
+select Major, Major_category, ShareWomen from recent_grads
+LIMIT 5;</sql><sql name="SQL 29">-- We will focus on answering the question below in this tab 
+-- Which majors had students who are most women 
+select Major from recent_grads
+ WHERE ShareWomen &gt;= 0.5
+ 
+ -- There are 97 majors who have more Women than Men</sql><sql name="SQL 30">-- Below is a querry that returns the Majors in the recent_grads table where students who were Men outnumbered students who were female
+select Major, ShareWomen from recent_grads 
+WHERE Sharewomen &lt; 0.5
+
+-- There are 76 majors who have more Men than Women</sql><sql name="SQL 31">-- We want to write a query that returns which Engineering Major had more Female than Men in the recent_grads table 
+select Major from recent_grads
+WHERE Major_category == 'Engineering' AND ShareWomen &gt;= 0.5
+
+-- We can confirm that only two majors met this category</sql><sql name="SQL 32">-- Below is query that returns all majors that had a majority of female students and a median salary greater than 50000
+select Major, Major_category, Median, ShareWomen from recent_grads
+WHERE  ShareWomen &gt;= 0.5 and Median &gt; 50000
+
+-- Actuarial Science and Computer Science are the majors with majority of female students and salary greater than 50000</sql><sql name="SQL 33">-- Below is an SQL query that returns the first 20 majors that either: 
+--         Have a Median salary greater than or equal to 10,000, or 
+--         Have more men than women
+-- The query will include the following columns
+--             Major
+--             Median
+--             Unemployed
+select Major, Median, Unemployed from recent_grads
+WHERE Median &gt;= 10000 OR Men &gt; Women
+LIMIT 20
+</sql><sql name="SQL 36">-- Engineering majors that either had mostly female graduates or an unemployment rate below 5.1%
+-- From the table gotten from the query above, which majors had the lowest unemployment_rate
+select Rank, Major, Major_category, ShareWomen, Unemployment_rate from recent_grads
+WHERE (Major_category = 'Engineering') AND (ShareWomen &gt;= 0.5 OR Unemployment_rate &lt; 0.051)
+ORDER BY Unemployment_rate
+
+-- There are 10 majors that meet the criteria
+-- ENGINEERING MECHANICS PHYSICS AND SCIENCE has the lowest unemployment rate</sql><sql name="SQL 37">--Below is a query that returns all majors that meets the following criteria:
+
+--         ShareWomen is greater than 0.3 
+--         And Unemployment_rate is less than .1
+--         Only include the following columns in the results and in this order:
+--             Major,
+--             ShareWomen,
+--             Unemployment_rate
+--         Order the results in descending order by the ShareWomen column.
+select Major, ShareWomen, Unemployed from recent_grads
+WHERE ShareWomen &gt; 0.3 and Unemployment_rate &lt; 0.1
+Order by ShareWomen DESC 
+
+
+</sql><sql name="SQL 38">-- We will now answer the question from the beginning
+-- Which engineering majors had the highest full time employment rates?
+select Major, Unemployment_rate from recent_grads
+WHERE Major_category = 'Engineering' 
+ORDER BY Unemployment_rate
+
+-- The ENGINEERING MECHANICS PHYSICS AND SCIENCE has the highest full time employment rates</sql><current_tab id="0"/></tab_sql></sqlb_project>
